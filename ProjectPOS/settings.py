@@ -82,8 +82,12 @@ WSGI_APPLICATION = 'ProjectPOS.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'd1o31mcic514gc',
+        'USER': 'ogukfweoqhlfcw',
+        'PASSWORD': 'ddac95d370fdaec3843184e054684fc5abc808f15db5db501ad8c4f65acf8c7b',
+        'HOST': 'ec2-34-237-89-96.compute-1.amazonaws.com',
+        'PORT': '5432',
     }
 }
 
