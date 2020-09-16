@@ -18,7 +18,7 @@ def dashboard(request):
 
    # DB Queries
    stocks = Stock.objects.all().order_by('-create_dated')
-   workers = SalesPerson.objects.all().order_by('id')
+   workers = SalesPerson.objects.all().order_by('id').exclude(user__is_superuser=True)
 
    # Table Pagination
    paginator = Paginator(stocks,3,orphans=1)
@@ -41,7 +41,7 @@ def dashboard(request):
    context = {
       "saleTotal": Sale.objects.aggregate(sum=Sum('total_price'))['sum'],
       "StocksTotal": Stock.objects.aggregate(count=Count('create_dated'))['count'],
-      "salesPerson": SalesPerson.objects.all().count()-1,
+      "salesPerson": workers.count(),
       
       "transDate": lastest_sale,
       "latestStockAdd": lastest_stock, 
@@ -156,11 +156,10 @@ def refund(request):
       product_qty = int(form.data.get('quantity'))
 
       stock = Stock.objects.get(product_id=product_id)
-      stock_qty = stock.quantity
-      print(stock_qty)
+      sale = Sale.objects.get(product__product_id=product_id)
       if form.is_valid():
          form.save(commit=False)
-         p_qty = stock_qty + product_qty
+         p_qty = stock.quantity + product_qty
          stock.quantity = p_qty
          stock.save()
          form.save()

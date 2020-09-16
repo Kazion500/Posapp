@@ -224,7 +224,13 @@
                 <tr class="text-left">
                   <td>{{worker.user.get_full_name}}</td>
                   <td>{{worker.phone}}</td>
+                  
+                  {% if worker.user.last_login %}
                   <th>{{worker.user.last_login|timesince}} ago</th>
+                  {% else %}
+                  <th>Not Active</th>
+                  {% endif %}
+                  
                   <td>
                     <a href="{% url 'update-worker' worker.pk %}"><i class="fas fa-pen"></i></a>
                     <a href="{% url 'delete-worker' worker.user.pk%}"><i class="fas fa-trash px-2"></i></a>

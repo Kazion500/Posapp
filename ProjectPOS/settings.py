@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = ')&4c$d5_gxu8vwd=+s3&rngr9!0+ce8y^iu3vicrh+$d927rw#'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1','pos-kl.herokuapp.com']
 
@@ -80,14 +80,22 @@ WSGI_APPLICATION = 'ProjectPOS.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-DATABASES = {
+if not DEBUG:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'd1o31mcic514gc',
+            'USER': 'ogukfweoqhlfcw',
+            'PASSWORD': 'ddac95d370fdaec3843184e054684fc5abc808f15db5db501ad8c4f65acf8c7b',
+            'HOST': 'ec2-34-237-89-96.compute-1.amazonaws.com',
+            'PORT': '5432',
+        }
+    }
+else:
+    DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'd1o31mcic514gc',
-        'USER': 'ogukfweoqhlfcw',
-        'PASSWORD': 'ddac95d370fdaec3843184e054684fc5abc808f15db5db501ad8c4f65acf8c7b',
-        'HOST': 'ec2-34-237-89-96.compute-1.amazonaws.com',
-        'PORT': '5432',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME':  os.path.join(BASE_DIR, 'db.sqlite3')
     }
 }
 
