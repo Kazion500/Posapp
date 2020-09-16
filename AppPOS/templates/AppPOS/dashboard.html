@@ -222,10 +222,18 @@
               <tbody>
                 {% for worker in workers %} 
                 <tr class="text-left">
-
-                  <td>{{worker.user.get_full_name}}</td>
-                  <td>{{worker.phone}}</td>
-                  <th>{{worker.user.last_login|timesince}} ago</th>
+                  
+                  {% if request.user.is_superuser %}
+                  <td></td>
+                  <td></td>
+                  <th></th>
+                  {% else %}
+                    <td>{{worker.user.get_full_name}}</td>
+                    <td>{{worker.phone}}</td>
+                    <th>{{worker.user.last_login|timesince}} ago</th>
+                  {% endif %}
+                    
+                  
                   <td>
                     <a href="{% url 'update-worker' worker.pk %}"><i class="fas fa-pen"></i></a>
                     <a href="{% url 'delete-worker' worker.user.pk%}"><i class="fas fa-trash px-2"></i></a>
