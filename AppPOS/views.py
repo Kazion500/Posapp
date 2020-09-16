@@ -247,7 +247,7 @@ def saleRegister(request):
 
 @login_required(redirect_field_name='login')
 def worker(request):
-   workers = SalesPerson.objects.all().order_by('id')
+   workers = SalesPerson.objects.all().order_by('id').exclude(user__is_superuser=True)
 
    # Table Pagination
    paginator = Paginator(workers,5,orphans=1)
