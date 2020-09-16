@@ -1,0 +1,381 @@
+
+
+{% extends "AppPOS/base.html" %} 
+{% load static %} 
+{% block title %} POS Admin {% endblock %} 
+{% block body %} 
+{% include "AppPOS/navbar.html" %}
+<!-- Table section -->
+<section class="main-section">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-9 ml-auto">
+        <div class="row pt-4 mt-3 mb-4 main-area-margin">
+          <div class="col-lg-12 col-md-7 ml-md-auto heading p-2">
+            <h6 class="m-0">Dashboard</h6>
+          </div>
+        </div>
+
+        <!-- Card-section -->
+        <div class="row mt-3 mb-3 main-area-margin card-wrapper">
+          <div class="col-sm-4">
+            <div class="card">
+              <div class="card-body d-flex">
+                <a href="{% url 'stock' %}"><img
+                  src="{% static 'icons/product.png' %}"
+                  style="width: 60px; height: 50px;"
+                  class="img-fluid align-self-center"
+                  alt=""/>
+                </a>
+                <div class="product-info align-self-center ml-auto">
+                  <h6>Total Products</h6>
+                  <h5 class="text-center">{{ StocksTotal }}</h5>
+                </div>
+              </div>
+              <div class="card-footer d-inline-flex">
+                <i class="fas fa-sync-alt mr-2 ml-2 align-self-center"></i>
+                <p class="align-self-center my-0">Update</p>
+                <p class="align-self-center my-0">
+                  {% if latestStockAdd != 'Waiting for update' %}
+                    Last Updated {{ latestStockAdd.create_dated|timesince }} ago  by {{ request.user }}
+                  {% else %}
+                   {{ latestStockAdd }}
+                  {% endif %}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-sm-4">
+            <div class="card">
+              <div class="card-body d-flex">
+                  <a href="{% url 'worker' %}">
+                    <img
+                    src="{% static 'icons/users.png' %}"
+                    style="width: 60px; height: 50px;"
+                    class="img-fluid align-self-center"
+                    alt=""/>
+                  </a>
+                <div class="product-info align-self-center ml-auto">
+                  <h6>Workers</h6>
+                  <h5 class="text-center">{{salesPerson}}</h5>
+                </div>
+              </div>
+              <div class="card-footer d-inline-flex">
+                <i class="fas fa-sync-alt mr-2 ml-2 align-self-center"></i>
+                <p class="align-self-center my-0">Update</p>
+                <p class="align-self-center my-0">
+                  Last Updated {% now 'd M Y' %} by {{ request.user }}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-sm-4">
+            <div class="card">
+              <div class="card-body d-flex">
+                <a href="{% url 'sales' %}">
+                  <img
+                  src="{% static 'icons/sales.png' %}"
+                  style="width: 60px; height: 50px;"
+                  class="img-fluid align-self-center"
+                  alt=""/>
+                </a>
+                <div class="product-info align-self-center ml-auto">
+                  <h6>Total Sales</h6>
+                  
+                  {% if saleTotal != None %}
+                    <h5 class="text-center">K{{ saleTotal }}</h5>
+                  {% else %}
+                    <h5 class="text-center">K0</h5>
+                  {% endif %}
+                 
+                  
+                </div>
+              </div>
+              <div class="card-footer d-inline-flex">
+                <i class="fas fa-sync-alt mr-2 ml-2 align-self-center"></i>
+                <p class="align-self-center my-0">Update</p>
+                <p class="align-self-center my-0">
+                     
+                  {% if transDate == 'Waiting for update' %}
+                    {{ transDate }}
+                  {% else %}
+                    Last Updated {{ transDate.transaction_date|timesince }} ago by {{ transDate.user.user.username }}
+                  {% endif %}
+
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- end Card-section -->
+
+        <!-- Table data -->
+        <div class="row mt-3 main-area-margin">
+          <!-- Workers Table -->
+          <div class="col-md-6 my-4">
+            <div class="table-search-head d-flex align-items-center mb-4">
+              <h6 class="my-0 mr-auto">Stocks</h6>
+              <form id="stock-form" class="justify-content-end">
+                <input
+                  type="text"
+                  class="form-control py-1 px-3 h-75 fa-sm"
+                  id="stock-input"
+                  placeholder="Search Stock"
+                />
+              </form>
+            </div>
+            <!-- Stocks Table -->
+            <table class="table table-striped table-bordered">
+              <thead>
+                <tr class="text-left">
+                  <th>Name</th>
+                  <th>Category</th>
+                  <th>Qty</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="tbody">
+                
+                {% for stock in stocks %}
+                  
+                  <tr class="text-left">
+                    <td>{{ stock.product_name }}</td>
+                    <td>{{ stock.category.category_name }}</td>
+                    <td class="stock_qty">{{ stock.quantity }}</td>
+                    <td id="status"></td>
+                  </tr>
+
+                {% endfor %}
+    
+              </tbody>
+            </table>
+            <div class="paginate">
+
+              <div class="table-pages">
+                <p class="my-2">Page {{stocks.number}} of {{stocks.paginator.num_pages}}</p>
+              </div>
+              <!-- Table Pagination -->
+              <nav aria-label="Page navigation">   
+                <ul class="pagination pages-paginated">
+                  {% if stocks.has_previous %}
+                  <li class="page-item">
+                    <a class="page-link" href="?page={{ stocks.previous_page_number }}" aria-label="Previous">
+                      <span aria-hidden="true"
+                        ><i class="fas fa-angle-left"></i
+                      ></span>
+                    </a>
+                  </li>   
+                  {% endif %}
+                  
+                  {% for n in stocks.paginator.page_range %}
+                    {% if stocks.number == n %}
+                      <li class="page-item" id="current">
+                        <a href="?stocks={{n}}" class="page-link" id="current">{{n}}</a>
+                      </li>
+                    {% elif n > stocks.number|add:'-3' and n < stocks.number|add:'3' %}
+                      <li class="page-item"><a class="page-link" href="?stocks={{ n }}">{{ n }}</a></li>
+                    {% endif %}
+                  {% endfor %}
+                
+                  {% if stocks.has_next %}
+                  
+                    <li class="page-item">
+                      <a class="page-link" href="?stocks={{ stocks.next_page_number }}" aria-label="Previous">
+                        <span aria-hidden="true"
+                          ><i class="fas fa-angle-right"></i
+                        ></span>
+                      </a>
+                    </li>
+                  {% endif %}   
+                </ul> 
+              </nav>
+              <!-- end of Table Pagination -->
+              
+            </div>
+          </div>
+          <div class="col-md-6 my-4">
+            <div class="table-search-head d-flex align-items-center mb-4">
+              <h6 class="my-0 mr-auto">Workers</h6>
+              <form id="stock-form" class="justify-content-end">
+                <input
+                  type="text"
+                  class="form-control py-1 px-3 h-75 fa-sm"
+                  id="stock-input"
+                  placeholder="Search Stock"
+                />
+               
+              </form>
+            </div>
+
+            <table class="table table-striped table-bordered">
+              <thead>
+                <tr class="text-left">
+                  <th>Name</th>
+                  <th>Cell number</th>
+                  <th>Last Active</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {% for worker in workers %} 
+                <tr class="text-left">
+
+                  <td>{{worker.user.get_full_name}}</td>
+                  <td>{{worker.phone}}</td>
+                  <th>{{worker.user.last_login|timesince}} ago</th>
+                  <td>
+                    <a href="{% url 'update-worker' worker.pk %}"><i class="fas fa-pen"></i></a>
+                    <a href="{% url 'delete-worker' worker.user.pk%}"><i class="fas fa-trash px-2"></i></a>
+                    <a href="#"><i class="fas fa-paper-plane"></i></a>
+                  </td>
+                </tr>
+                {% endfor %}
+
+              </tbody>
+            </table>
+            <div class="table-pages">
+              <p class="my-2">Page {{workers.number}} of {{workers.paginator.num_pages}}</p>
+            </div>
+            <!-- Table Pagination -->
+            <nav aria-label="Page navigation">   
+              <ul class="pagination pages-paginated">
+                {% if workers.has_previous %}
+                <li class="page-item">
+                  <a class="page-link" 
+                    href="?page={{ workers.previous_page_number }}" 
+                    aria-label="Previous">
+                    <span aria-hidden="true"
+                      ><i class="fas fa-angle-left"></i
+                    ></span>
+                  </a>
+                </li>   
+                {% endif %}
+                
+                {% for n in workers.paginator.page_range %}
+                  {% if workers.number == n %}
+                    <li class="page-item" id="current">
+                      <a href="?workers={{n}}" class="page-link" id="current">{{n}}</a>
+                    </li>
+                  {% elif n > workers.number|add:'-3' and n < workers.number|add:'3' %}
+                    <li class="page-item"><a class="page-link" href="?workers={{ n }}">{{ n }}</a></li>
+                  {% endif %}
+                {% endfor %}
+              
+                {% if workers.has_next %}
+                
+                  <li class="page-item">
+                    <a class="page-link" href="?workers={{ workers.next_page_number }}" aria-label="Previous">
+                      <span aria-hidden="true"
+                        ><i class="fas fa-angle-right"></i
+                      ></span>
+                    </a>
+                  </li>
+                {% endif %}   
+              </ul> 
+            </nav>
+            <!-- end of Table Pagination -->
+          </div>
+        </div>
+        <!-- end of Table data -->
+      </div>
+    </div>
+  </div>
+</section>
+<!-- end of Table section -->
+
+<!-- message and sales summary -->
+<section class="main-section">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-9 ml-auto">
+        <div class="row main-area-margin">
+          <!-- Sales Summary Table -->
+          <div class="col-md-6">
+            <div class="table-search-head d-flex align-items-center mb-4">
+              <h6 class="my-0 mr-auto">Sales Summary</h6>
+            </div>
+
+            <table class="table table-dark table-striped table-bordered">
+              <thead>
+                <tr class="text-left">
+                  <th></th>
+                  <th>Sales</th>
+                  <th>Profit</th>
+                  <th class="text-center">Total/Year</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr class="text-left">
+                  <th>Monthly</th>
+                  <td>35000</td>
+                  <td>500</td>
+                  <td
+                    colspan="2"
+                    rowspan="3"
+                    class="text-center year-table pt-4"
+                  >
+                    2020
+                  </td>
+                </tr>
+
+                <tr class="text-left">
+                  <th>Daily</th>
+                  <td>34545</td>
+                  <td>300</td>
+                </tr>
+
+                <tr class="text-left">
+                  <th>Weekly</th>
+                  <td>4673</td>
+                  <td>150</td>
+                </tr>
+                <tr class="text-left">
+                  <th>Total</th>
+                  <td>44673</td>
+                  <td>1450</td>
+                  <td class="text-center">K434545</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="table-pages">
+              <p class="my-2">Pages 1 of 2</p>
+            </div>
+            <!-- Table Pagination -->
+            <nav aria-label="Page">
+              <ul class="pagination pages-paginated">
+                <li class="page-item">
+                  <a class="page-link" href="#" aria-label="Previous">
+                    <span aria-hidden="true"
+                      ><i class="fas fa-angle-left"></i
+                    ></span>
+                  </a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link current" href="#">1</a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" href="#">2</a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" href="#" aria-label="Next">
+                    <span aria-hidden="true"
+                      ><i class="fas fa-angle-right"></i
+                    ></span>
+                  </a>
+                </li>
+              </ul>
+            </nav>
+            <!-- end of Table Pagination -->
+          </div>
+          <!-- end of Sales Summary Table -->
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- end of message and sales summary -->
+{% endblock %}

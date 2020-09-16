@@ -1,0 +1,30 @@
+{% extends "AppPOS/base.html" %}
+{% load widget_tweaks %}
+{% load static %}
+{% block title %}
+
+{% endblock %}
+
+{% block body %}
+  <!-- login form with options (admin/salesperson) -->
+  <div class="container-fluid px-0 index">
+    <div class="row login align-items-center justify-content-center mx-0">
+      <div class="col-md-3">
+        <div class="login-choices mb-4">
+          <a href="" class="btn btn-custom px-5 mr-1">Admin</a>
+          <a href="" class="btn btn-dark px-4">Salesperson</a>
+        </div>
+        <form method="post" class="border rounded bg-light p-5">
+          {% csrf_token %}
+          <b>{{form.username.label_tag}}</b>
+          <p>{{form.username|remove_attr:"autocomplete"|attr:"class: form-control p-4"}}</p>
+          <b>{{form.password.label_tag}}</b>
+          <p>{{form.password|remove_attr:"autocomplete"|attr:"class: form-control p-4"}}</p>
+
+          <button type="submit" class="btn btn-custom w-100 p-2">Login</button>
+
+        </form>
+      </div>
+    </div>
+  </div>
+  {% endblock %}

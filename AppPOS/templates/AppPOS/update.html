@@ -1,0 +1,42 @@
+<!-- @format -->
+
+{% extends "AppPOS/base.html" %} {% load static %} 
+{% block title %} Stocks {%endblock %} 
+{% block body %} 
+{% include "AppPOS/navbar.html" %}
+
+<div class="container ml-auto mt-5">
+  <div class="row ml-auto mt-5">
+    <div class="col-md-6 mx-auto mt-5">
+        <form method="post" class="ml-5">
+            {% csrf_token %}
+            
+            {% if stock_form_update %}
+                {% for form in stock_form_update %}
+                <b>{{form.label}}</b>
+                <div class="row">
+                    <div class="col-md-12">
+                        <input type="text" name="{{ form.name }}" value="{{ form.value }}" class="form-control my-3">
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                {% for form in worker_form_update %}
+                <b>{{form.label}}</b>
+                <div class="row">
+                    <div class="col-md-12">
+                        <input type="text" name="{{ form.name }}" value="{{ form.value }}" class="form-control my-3">
+                    </div>
+                </div>
+                {% endfor %}
+            {% endif %}
+                
+            
+            <button class="btn btn-custom btn-block mt-3">Update</button>
+            <!-- {{ form_update.as_p }} -->
+        </form>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

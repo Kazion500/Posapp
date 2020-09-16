@@ -1,0 +1,272 @@
+/** @format */
+
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,900;1,900&display=swap");
+/**
+ * /* 
+ * =============================
+ * NOTIC: style sheet will be changed :)
+ * =============================
+ *
+ * @format
+ */
+
+/*
+===============
+*Css Variables
+===============
+*/
+
+:root {
+  --primary-color: #134d47;
+  --secondary-color: #309b90;
+  --btn-primary: var(--secondary-color);
+  --btn-secondary: #212121;
+  --font-heading: var(--btn-secondary);
+  --font-sidebar: var(--icon-color);
+  --pagination-color: var(--primary-color);
+  --pagination-active: var(--secondary-color);
+  --icon-color: #e3e3e3;
+  --border-color: #a1a1a19a;
+}
+
+/*
+======================
+generic style for h5 
+======================
+*/
+body {
+  /* background: #000; */
+  font-family: "Montserrat", sans-serif;
+}
+h6 {
+  font-weight: bolder;
+}
+.sidebar a,
+.main-menu-bar a {
+  color: var(--icon-color) !important;
+}
+.btn-custom {
+  background-color: var(--btn-primary) !important;
+  color: var(--font-sidebar) !important;
+  border: 0 !important;
+}
+.heading {
+  background-color: var(--secondary-color);
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  color: var(--font-sidebar);
+  letter-spacing: 1px;
+}
+td a {
+  color: var(--secondary-color);
+}
+.login {
+  height: 100vh;
+  background-color: var(--primary-color);
+}
+.login-choices a {
+  font-size: 14px;
+}
+.sidebar .active {
+  left: 30px !important;
+}
+.card-body h5 {
+  color: var(--icon-color) !important;
+  font-weight: bolder !important;
+  letter-spacing: 1.5px !important;
+}
+.sales-inputs input {
+  width: 50% !important;
+}
+::placeholder {
+  font-weight: 500 !important;
+  color: #b3b3b3 !important;
+}
+#sales-register input {
+  width: 100%;
+  background-color: rgb(241, 241, 241);
+}
+#sales-register input:focus {
+  outline: none;
+}
+#sales-register tr th {
+  width: 13% !important;
+}
+#sales-register tr td:nth-child(2) {
+  width: 19% !important;
+}
+#sales-register tr td:nth-child(3) {
+  width: 11% !important;
+}
+#sales-register tr td:nth-child(4) {
+  width: 9% !important;
+}
+#sales-register tr td:nth-child(5) {
+  width: 7% !important;
+}
+#sales-register tr td:nth-child(6) {
+  width: 6% !important;
+}
+#sales-register tr td:nth-child(7) {
+  width: 10% !important;
+}
+.controls-sales h1 {
+  font-weight: 900 !important;
+}
+@media (max-width: 1720px) {
+  html {
+    font-size: 12px;
+  }
+  ::placeholder {
+    letter-spacing: 0.4px;
+    font-size: 10px !important;
+  }
+}
+/* 
+===================
+Sidebar navigation
+===================
+*/
+.sidebar .fas {
+  padding-right: 0.6em;
+  font-size: 1.5rem;
+  color: var(--icon-color);
+}
+.sidebar .navbar-brand {
+  padding: 0.8em;
+}
+.sidebar .fas {
+  padding-right: 0.8em;
+  font-size: 1.5rem;
+  color: var(--icon-color);
+}
+.sidebar {
+  background-color: var(--primary-color);
+  height: 100vh;
+}
+.sidebar .nav-link {
+  padding: 1em 2em !important;
+}
+.sidebar .nav-item {
+  border-bottom: 1px solid var(--border-color);
+  transition: background-color 250ms;
+}
+.sidebar .nav-item:hover {
+  background-color: var(--secondary-color);
+  border-bottom: 0;
+}
+#current {
+  background-color: var(--secondary-color) !important;
+}
+/* 
+======================
+main-menu-bar 
+======================
+*/
+.main-menu-bar {
+  background-color: var(--primary-color);
+}
+.main-menu-bar img {
+  width: 25px;
+  height: 25px;
+  object-fit: cover;
+  cursor: pointer;
+}
+.main-menu-bar .col-md-8,
+.fas .fa-user {
+  width: fit-content;
+  height: fit-content;
+}
+.main-menu-bar .fas {
+  font-size: 1.3rem;
+}
+
+/* 
+=============
+main section
+=============
+*/
+.main-section .main-area-margin {
+  margin-left: -10.5%;
+  margin-right: 1%;
+}
+
+.main-section .card {
+  box-shadow: 2px 2px 10px 0 var(--btn-secondary);
+  border-radius: 4px;
+  border: 0;
+}
+.main-section .card h6 {
+  font-weight: bold;
+}
+.main-section .card-body {
+  background: var(--secondary-color);
+  border-radius: 3px 3px 0 0;
+}
+.main-section .card-footer {
+  background-color: var(--btn-secondary) !important;
+  color: var(--font-sidebar);
+  font-size: 0.8rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+.main-section .card-footer p + p {
+  font-size: 0.6rem;
+  font-weight: normal;
+  margin-left: auto;
+}
+
+/* 
+===================
+stocks Table style
+===================
+*/
+.page-item .page-link {
+  background-color: var(--primary-color);
+  color: var(--font-sidebar);
+  padding: 0.3em 0.6em;
+  transition: background-color 0.25s;
+}
+.page-item .page-link:hover {
+  background-color: var(--secondary-color);
+  color: var(--font-sidebar);
+}
+.pages-paginated .current {
+  background-color: var(--secondary-color);
+}
+.year-table {
+  font-size: 4rem;
+  font-weight: bolder;
+}
+/* 
+===============================
+media query for the sidebar menu
+===============================
+*/
+@media (max-width: 766px) {
+  .sidebar .nav-link {
+    padding: 1em !important;
+  }
+  .sidebar {
+    position: static !important;
+    height: auto !important;
+  }
+  .main-menu-bar {
+    position: static !important;
+  }
+  .main-section .main-area-margin {
+    margin-left: initial;
+  }
+}
+@media (min-width: 2000px) {
+  .card-wrapper {
+    max-width: 1600px;
+    margin: 0 auto 0 2% !important;
+  }
+}
+@media (min-width: 2400px) {
+  .card-wrapper {
+    margin: 0 auto 0 23% !important;
+  }
+}

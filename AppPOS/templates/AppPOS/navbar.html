@@ -1,0 +1,160 @@
+<!-- @format -->
+
+<!-- Navbar -->
+{% load static %}
+<nav class="navbar navbar-expand-md navbar-light pl-0 w-100 mb-4">
+  <button
+    type="button"
+    class="navbar-toggler px-2 py-1 ml-auto"
+    data-toggle="collapse"
+    data-target="#NavbarCollaspe"
+  >
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="NavbarCollaspe">
+    <div class="container-fluid">
+      <div class="row">
+        <!-- SideBar -->
+        <div
+          class="col-xl-2 col-lg-3 col-md-4 sidebar fixed-top px-0"
+          id="menu_content"
+        >
+          <a
+            href="#"
+            class="navbar-brand d-flex mx-auto border-bottom border-secondary justify-content-center align-items-center"
+            ><h5 class="m-0">Point of sale</h5></a
+          >
+          <ul class="navbar-nav flex-column">
+
+            {% if request.user.is_superuser %}
+            <li class="nav-item">
+              <a href="{% url 'dashboard' %}" class="nav-link current"
+                ><i class="fas fa-home"></i>Dashboard</a
+              >
+            </li>
+
+              <li class="nav-item float-left">
+                <a href="{% url 'stock' %}" class="nav-link"
+                  ><i class="fas fa-store"></i>Stock</a
+                >
+              </li>
+            {% endif %}
+
+            <li class="nav-item">
+              <a href="{% url 'sales' %}" class="nav-link"
+                ><i class="fas fa-shopping-cart"></i>Sales</a
+              >
+            </li>
+
+            <li class="nav-item">
+              <a href="{% url 'refund' %}" class="nav-link"
+                ><i class="fas fa-shopping-cart"></i>Refund</a
+              >
+            </li>
+            
+            {% if request.user.is_superuser %}    
+              
+              <li class="nav-item">
+                <a href="{% url 'worker' %}" class="nav-link"
+                  ><i class="fas fa-users-cog"></i>Workers</a
+                >
+              </li>
+
+              <li class="nav-item">
+                <a href="" class="nav-link"
+                  ><i class="fas fa-list-alt"></i>Reports</a
+                >
+              </li>
+              
+              <li class="nav-item">
+                <a href="" class="nav-link"
+                  ><i class="fas fa-chart-line"></i>Statistic</a
+                >
+              </li>
+            {% else %}
+              <li class="nav-item">
+                <a href="{% url 'sales-register' %}" class="nav-link"
+                  ><i class="fas fa-pen"></i>Sales-Register</a
+                >
+              </li>
+            {% endif %}
+              
+          </ul>
+        </div>
+        <!-- end of sidebar -->
+
+        <!-- main menu bar -->
+        <div
+          class="col-xl-10 col-lg-9 col-md-8 ml-auto fixed-top main-menu-bar py-2 w-100"
+        >
+          <div class="row align-items-center">
+            <div class="col-md-3">
+              
+              <img
+                src="{% static 'icons/menu.png' %}"
+                class="img-fluid m-0 p-0 mr-5"
+                id="menu"
+                alt=""
+              />
+              
+            </div>
+            <div class="col-md-7 welcome">
+              <h5 class="text-white d-inline">Hello {{ request.user }}
+                <b><small class="text-white d-inline">Welcome Back Today is {% now 'd m y P' %}</small></b>
+              </h5>
+            </div>
+            
+            <div class="col-md-2">
+              <ul class="navbar-nav setting">
+  
+                <li class="nav-item">
+                  <a href="" class="nav-link"><i class="fas fa-bell"></i></a>
+                </li>
+                <li class="nav-item">
+                  <a href="" class="nav-link"><i class="fas fa-cog"></i></a>
+                </li>
+                <li class="nav-item ml-xl-auto">
+                  <a
+                    href=""
+                    class="nav-link"
+                    data-toggle="modal"
+                    data-target="#logout"
+                    ><i class="fas fa-user"></i
+                  ></a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <!-- end main menu bar -->
+      </div>
+    </div>
+  </div>
+</nav>
+<!-- end of Navbar -->
+
+<!-- modal logout-->
+<div class="modal fade" id="logout">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-body">
+        <h6 class="d-inline">Are you user you want to Logout!!</h6>
+        <button type="button" class="close p-1 border-0" data-dismiss="modal">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-secondary btn-custom"
+          data-dismiss="modal"
+        >
+          Close
+        </button>
+        <a href=" {% url 'logout' %} " type="button" class="btn btn-danger">Logout</a>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- end of modal logout-->

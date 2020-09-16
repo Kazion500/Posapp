@@ -1,0 +1,221 @@
+<!-- @format -->
+
+{% extends "AppPOS/base.html" %} {% load static %} {% block title %} Stocks
+{%endblock %} {% block body %} {% include "AppPOS/navbar.html" %}
+<!-- Table section -->
+<section class="main-section">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-9 ml-auto">
+        <div class="row pt-4 mt-3 mb-4 main-area-margin">
+          <div class="col-lg-12 col-md-7 ml-md-auto heading p-2">
+            <h6 class="m-0">Sales Register</h6>
+          </div>
+          <div class="back">
+            <a href="" class="btn btn-dark btn-sm mt-3 py-0"
+              ><i class="fas fa-arrow-left"></i> Back</a
+            >
+          </div>
+        </div>
+
+        <!-- Table data -->
+        <div class="row mt-3 main-area-margin">
+          <!-- Sales Table -->
+
+          <div class="col-md-12 my-4">
+            <div id="erro"></div>
+            
+            
+            {% if messages %}
+                {% for message in messages %}
+                  {% if message.tags  %}
+                    <div class="alert alert-{{message.tags}}" id="message_error"><h5>{{ message }}</h5></div>
+                  {% else %}
+                    <div class="alert alert-{{message.tags}}" id="message_error"><h5>{{ message }}</h5></div>
+                  {% endif %}  
+                {% endfor %}
+            {% endif %}
+              
+              
+            <div
+              class="table-search-head d-flex align-items-center justify-content-between mb-4"
+            >
+              
+              <form id="stock-form" class="align-self-start">
+                <input
+                  type="text"
+                  class="form-control"
+                  list="select_product_name"
+                  name="product"
+                  id="sales_product_name_input"
+                  placeholder="Select product name"
+                  autocomplete="off"
+                />
+                <datalist id="select_product_name">
+                  {% for p_id in stockDetail %}
+                  <option>{{ p_id.product_name }}</option>
+                  {% endfor %}
+                </datalist>
+
+                <!-- <i class="fas fa-search"></i> -->
+              </form>
+              <div
+                class="sales-inputs d-flex align-self-end align-items-center"
+              >
+                <input
+                  type="text"
+                  id="config-quantity"
+                  class="form-control mx-2"
+                  autocomplete="off"
+                  placeholder="Enter Quantity"
+                />
+                <input
+                  type="text"
+                  id="config-discount"
+                  class="form-control ml-3"
+                  autocomplete="off"
+                  placeholder="Enter Discount (K) "
+                />
+              </div>
+            </div>
+
+            <!-- form table -->
+            <form method="post" class="d-flex flex-column mb-5" id="sales-reg">
+             
+              <input type="hidden" name="{{form_sale.user}}">
+              
+              {% csrf_token %}
+                {{form_sales.errors}}
+              <table class="table sales_register table-bordered table-striped">
+                <thead class="sales-head-td">
+                  <tr class="text-left">
+                    <th>#</th>
+                    <th>Product Sold</th>
+                    <th>Category</th>
+                    <th>Price</th>
+                    <th>Qty</th>
+                    <th>Discount</th>
+                    <th>Total</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="sales-register" class="">
+                  <tr class="">
+                    <th>
+                      <input
+                        type="text"
+                        class="border-0 m-0"
+                        name="product"
+                        id="sales_product_id"
+                        autocomplete="off"
+                        readonly
+                      />
+                    </th>
+
+
+                    <td>
+                      <input
+                        type="text"
+                        class="border-0 m-0"
+                        id="placeholder_product_name"
+                        autocomplete="off"
+                        readonly
+                      />
+                    </td>
+
+                    <td>
+                      <input
+                        type="text"
+                        class="border-0"
+                        list="category"
+                        name="category"
+                        id="sales_category_id"
+                        autocomplete="off"
+                        readonly
+                      />
+                    </td>
+
+                    <td>
+                      <input
+                        type="text"
+                        class="border-0 m-0"
+                        name="product_price"
+                        id="sales-price"
+                        autocomplete="off"
+                        readonly
+                      />
+                    </td>
+
+                    <td>
+                      <input
+                        type="text"
+                        class="border-0 m-0"
+                        name="quantity"
+                        id="quantity"
+                        autocomplete="off"
+                        readonly
+                      />
+                    </td>
+
+                    <td>
+                      <input
+                        type="text"
+                        class="border-0 m-0"
+                        name="discount"
+                        id="sales-discount"
+                        autocomplete="off"
+                        readonly
+                      />
+                    </td>
+
+                    <td>
+                      <input
+                        type="text"
+                        class="border-0 m-0"
+                        name="total_price"
+                        id="sales-total-price"
+                        autocomplete="off"
+                        readonly
+                      />
+                    </td>
+
+                    <td>
+                      <a href="#"><i class="fas fa-pen pr-2"></i></a>
+                      <a href="#"><i class="fas fa-trash"></i></a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="controls-sales">
+                <div class="row">
+                  <div class="col align-self-center" id="change"></div>
+                  <div class="col-md-4 d-flex align-items-center">
+                    <form method="GET">
+                      <input
+                        type="text"
+                        id="sales-change"
+                        class="form-control amount-given mr-3 w-50"
+                        id="amount"
+                        autocomplete="off"
+                        placeholder="Enter Amount Given (K) "
+                      />
+                    </form>
+
+                    <button type="submit" class="btn btn-custom w-50 my-3 p-2">
+                      Process sale
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </form>
+            <!-- end of form table -->
+
+          </div>
+        </div>
+        <!-- end of Table data -->
+      </div>
+    </div>
+  </div>
+</section>
+<!-- end of Table section -->
+{% endblock %}

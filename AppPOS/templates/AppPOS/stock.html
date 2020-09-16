@@ -1,0 +1,329 @@
+<!-- @format -->
+
+{% extends "AppPOS/base.html" %} 
+{% load static %} {% block title %} Stocks {%endblock %} 
+{% block body %} 
+{% include "AppPOS/navbar.html" %}
+<!-- Table section -->
+<section class="main-section">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-9 ml-auto">
+        <div class="row pt-4 mt-3 mb-4 main-area-margin">
+          <div class="col-lg-12 col-md-7 ml-md-auto heading p-2">
+            <h6 class="m-0">Stocks</h6>
+          </div>
+          <div class="back">
+            <a href="" class="btn btn-dark btn-sm mt-3 py-0"
+              ><i class="fas fa-arrow-left"></i> Back</a
+            >
+          </div>
+        </div>
+
+        <!-- Table data -->
+        <div class="row mt-3 main-area-margin">
+          <!-- Products Table -->
+
+          <div class="col-md-12 my-4">
+            <div class="table-search-head d-flex align-items-center mb-4">
+              <form id="stock-form" class="justify-content-end">
+                <input
+                  type="text"
+                  class="form-control py-1 px-3 h-75 fa-sm"
+                  id="stock-input"
+                  placeholder="Search Stock"
+                  autocomplete="off"
+                />
+                <!-- <i class="fas fa-search"></i> -->
+              </form>
+              <!-- Modals (stocks/category) -->
+              <div class="add-product ml-auto">
+                <!-- stock modal -->
+                <a
+                  href=""
+                  class="btn btn-custom"
+                  data-target="#add-product"
+                  data-toggle="modal"
+                  ><i class="fas fa-plus-circle mr-2"></i> Add Stock</a
+                >
+
+                <div class="modal fade" id="add-product">
+                  <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                      <div class="modal-body">
+                        <h6 class="d-inline mb-4">
+                          Stock Registration
+                        </h6>
+                        <button
+                          type="button"
+                          class="close p-1 border-0"
+                          data-dismiss="modal"
+                        >
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                        <!-- add product modal -->
+
+                        <form method="post">
+                          {% csrf_token %}
+
+                          <div class="row mt-5">
+                            <div class="col-md-12">
+                              <input
+                                type="text"
+                                class="form-control"
+                                name="category"
+                                placeholder="Category ID"
+                                list="category"
+                                autocomplete="off"
+                              />
+                              <datalist id="category">
+                                {% for category in catgoryID %}
+                                <option>{{ category.category_id }}</option>
+                                {% endfor %}
+                              </datalist>
+                            </div>
+                          </div>
+
+                          <div class="row my-3">
+                            <div class="col-md-12">
+                              <input
+                                type="text"
+                                class="form-control"
+                                name="product_id"
+                                id="product_id"
+                                placeholder="Product ID"
+                                autocomplete="off"
+                              />
+                              <!-- <datalist id="product_id">
+                                {% for p_id in stock %}
+                                <option>{{ p_id }}</option>
+                                {% endfor %}
+                              </datalist> -->
+                            </div>
+                          </div>
+
+                          <div class="row my-3">
+                            <div class="col-md-12">
+                              <input
+                                type="text"
+                                class="form-control"
+                                name="product_name"
+                                placeholder="Product name"
+                                autocomplete="off"
+                              />
+                            </div>
+                          </div>
+
+                          <div class="row my-3">
+                            <div class="col-md-12">
+                              <input
+                                type="text"
+                                class="form-control"
+                                name="product_price"
+                                placeholder="Product price"
+                                autocomplete="off"
+                              />
+                            </div>
+                          </div>
+
+                          <div class="row my-3">
+                            <div class="col">
+                              <input
+                                type="text"
+                                class="form-control"
+                                name="quantity"
+                                placeholder="Quantity"
+                                autocomplete="off"
+                              />
+                            </div>
+                          </div>
+                          <!-- end of add product modal -->
+
+                          <div class="modal-footer">
+                            <button
+                              type="button"
+                              class="btn btn-secondary"
+                              data-dismiss="modal"
+                            >
+                              Close
+                            </button>
+
+                            <button type="submit" class="btn btn-custom">
+                              Add Stock
+                            </button>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- end of stock modal -->
+
+                <!-- category modal -->
+                <a
+                  href=""
+                  class="btn btn-custom"
+                  data-target="#add-category"
+                  data-toggle="modal"
+                  ><i class="fas fa-plus-circle mr-2"></i> Add Category</a
+                >
+                <div class="modal fade" id="add-category">
+                  <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                      <div class="modal-body">
+                        <h6 class="d-inline mb-4">
+                          Category Registration
+                        </h6>
+                        <button
+                          type="button"
+                          class="close p-1 border-0"
+                          data-dismiss="modal"
+                        >
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+
+                        <form method="post" novalidate>
+                          {% csrf_token %}
+
+                          <div class="row mt-5">
+                            <div class="col-md-12">
+                              <input
+                                type="text"
+                                class="form-control"
+                                name="category_name"
+                                placeholder="Category Name"
+                                autocomplete="off"
+                              />
+                            </div>
+                          </div>
+
+                          <div class="modal-footer">
+                            <button
+                              type="button"
+                              class="btn btn-secondary"
+                              data-dismiss="modal"
+                            >
+                              Close
+                            </button>
+
+                            <button type="submit" class="btn btn-custom">
+                              Add Category
+                            </button>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- end of category modal -->
+              </div>
+              <!-- end of modals (stocks/category) -->
+            </div>
+
+            {% if messages %}
+              {% for message in messages %}
+                <b><div class="alert alert-{{message.tags}}" id="message_error">{{ message }}</div></b>
+              {% endfor %}
+            {% endif %}
+            <table class="table table-striped table-bordered">
+              <thead>
+                <tr class="text-left">
+                  <th>Product ID</th>
+                  <th>Product Name</th>
+                  <th>Product Price</th>
+                  <th>Category Name</th>
+                  <th>Qty</th>
+                  <th>Status</th>
+                  <th>Date Created</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="tbody">
+                {% for stk in stock %}
+                <tr class="text-left">
+                  <th>{{ stk.product_id }}</th>
+                  <td>{{ stk.product_name }}</td>
+                  <td>K{{ stk.product_price }}</td>
+                  <td>{{ stk.category.category_name }}</td>
+                  <td class="stock_qty">{{ stk.quantity }}</td>
+
+                  <td id="status"></td>
+                  <td>{{ stk.create_dated|date:'d M Y' }}</td>
+                  <td>
+                    <a href="{% url 'update-stock' stk.product_id %}"
+                      ><i class="fas fa-pen pr-2"></i
+                    ></a>
+                    <a href="{% url 'delete-stock' stk.product_id %}"><i class="fas fa-trash"></i></a>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+            <div
+              class="print-paginate d-flex align-items-center justify-content-between"
+            >
+              <div class="paginate">
+                <div class="table-pages">
+                  <p class="my-2">Page {{stock.number}} of {{stock.paginator.num_pages}}</p>
+                </div>
+                <!-- Table Pagination -->
+                <nav aria-label="Page navigation">   
+                  <ul class="pagination pages-paginated">
+                    {% if stock.has_previous %}
+                    <li class="page-item">
+                      <a class="page-link" href="?page={{ stock.previous_page_number }}" aria-label="Previous">
+                        <span aria-hidden="true"
+                          ><i class="fas fa-angle-left"></i
+                        ></span>
+                      </a>
+                    </li>   
+                    {% endif %}
+                    
+                    {% for n in stock.paginator.page_range %}
+                      {% if stock.number == n %}
+                        <li class="page-item" id="current">
+                          <a href="?page={{n}}" class="page-link" id="current">{{n}}</a>
+                        </li>
+                      {% elif n > stock.number|add:'-3' and n < stock.number|add:'3' %}
+                        <li class="page-item"><a class="page-link" href="?page={{ n }}">{{ n }}</a></li>
+                      {% endif %}
+                    {% endfor %}
+                  
+                    {% if stock.has_next %}
+                    
+                      <li class="page-item">
+                        <a class="page-link" href="?page={{ stock.next_page_number }}" aria-label="Previous">
+                          <span aria-hidden="true"
+                            ><i class="fas fa-angle-right"></i
+                          ></span>
+                        </a>
+                      </li>
+                    {% endif %}   
+                  </ul> 
+                </nav>
+                <!-- end of Table Pagination -->
+              </div>
+
+              <div class="print">
+                <h6>
+                  Print Report ->
+                  <img
+                    src="{% static 'icons/print.png' %}"
+                    alt=""
+                    class="img-fluid ml-2 print"
+                    style="width: 30px; cursor: pointer;"
+                  />
+                </h6>
+              </div>
+            </div>
+          </div>
+          <!-- end of Products Table -->
+        </div>
+        <!-- end of Table data -->
+      </div>
+    </div>
+  </div>
+</section>
+<!-- end of Table section -->
+
+{% endblock %}
